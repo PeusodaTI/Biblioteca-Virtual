@@ -1,0 +1,328 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API Biblioteca Virtual.",
+        "description": "Essa API tem como objetivo o gerenciamento de livros em uma biblioteca virutal.",
+        "contact": {
+            "email": "peusodati@gmail.com"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:3333/v1",
+            "description": "API de teste"
+        }
+    ],
+    "paths": {
+        "/coordenadores": {
+            "post": {
+                "sumary": "Cadastro de coordenadores",
+                "description": "Essa rota será responsável por cadastrar um novo coordenador",
+                "tags": ["Coordenadores"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schema/Coordenador"
+                            },
+                            "examples": {
+                                "coordenador": {
+                                    "value": {
+                                        "nome": "Alexandre o Grande",
+                                        "telefone": "33988225468", 
+                                        "matricula": 27565
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schema/Coordenador"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erro de validação ou outro erro do cliente.",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "Erro de validação": {
+                                        "sumary": "Erro na validação dos dados enviados",
+                                        "value": {
+                                            "code": "tipo invalido",
+                                            "expected": "number",
+                                            "received": "string",
+                                            "path": [
+                                                "matricula"
+                                            ],
+                                            "message": "Esperado number, recebido string || O campo nome é obrigatório"
+                                        }
+                                    },
+                                    "Coordenador existente": {
+                                        "sumary": "Cadastro rejeitado",
+                                        "value": {
+                                            "message": "Já existe um coordenador com essa matricula"
+                                        }
+                                    }
+
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error."
+                    }
+                }
+            },
+            "get": {
+                "description": "Esta rota é responsável por buscar todos os coordenadores cadastrados",
+                "sumary": "Busca de todos os coordenadores cadastrados",
+                "tags": ["Coordenadores"],
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schema/Coordenador"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/coordenadores/{id}": {
+            "get": {
+                "description": "Esta rota é responsável por buscar um único coordenador por Id",
+                "sumary": "Busca de coordenador por Id",
+                "tags": ["Coordenadores"],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id para buscar o coordenador",
+                        "required": true,
+                        "type": "string",
+                        "format": "uuid",
+                        "example": "8a1dfb34-c487-404d-ae7b-8464da1679f0"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schema/Coordenador"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erro de validação",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "Erro de validação": {
+                                        "sumary": "Erro na validação dos dados enviados",
+                                        "value": {
+                                            "validation": "uuid",
+                                            "code": "invalid_string",
+                                            "message": "Invalid uuid || O campo id deve ser do tipo string uuid",
+                                            "path": [
+                                                "id"
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Coordenador não encontrado",
+                        "message": "Não existe coordenador cadastro com esse Id."
+                    },
+                    "500": {
+                        "description": "Internal Server Error."
+                    }
+                }
+            },
+            "put": {
+                "description": "Esta rota é responsável por atualizar um coordenador por Id",
+                "sumary": "Atualização de coordenador por Id",
+                "tags": ["Coordenadores"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schema/Coordenador"
+                            },
+                            "examples": {
+                                "coordenador": {
+                                    "value": {
+                                        "nome": "Alexandre o Grande",
+                                        "telefone": "33988225468", 
+                                        "matricula": 27565
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id para atualizar o coordenador",
+                        "required": true,
+                        "type": "string",
+                        "format": "uuid",
+                        "example": "8a1dfb34-c487-404d-ae7b-8464da1679f0"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schema/Coordenador"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erro de validação ou outro erro do cliente.",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "Erro de validação Id": {
+                                        "sumary": "Erro na validação dos dados enviados",
+                                        "value": {
+                                            "validation": "uuid",
+                                            "code": "invalid_string",
+                                            "message": "Invalid uuid || O campo id deve ser do tipo string uuid",
+                                            "path": [
+                                                "id"
+                                            ]
+                                        }
+                                    },
+                                    "Erro de validação dados requisição": {
+                                        "sumary": "Erro na validação dos dados enviados",
+                                        "value": {
+                                            "code": "tipo invalido",
+                                            "expected": "number",
+                                            "received": "string",
+                                            "path": [
+                                                "matricula"
+                                            ],
+                                            "message": "Esperado number, recebido string || O campo nome é obrigatório"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Coordenador não encontrado",
+                        "message": "Não existe coordenador cadastro com esse Id."
+                    },
+                    "500": {
+                        "description": "Internal Server Error."
+                    }
+                }
+            },
+            "delete": {
+                "description": "Esta rota é responsável por excluir um único coordenador por Id",
+                "sumary": "Exclusão de um coordenador por Id",
+                "tags": ["Coordenadores"],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id para exclusão de um coordenador",
+                        "required": true,
+                        "type": "string",
+                        "format": "uuid",
+                        "example": "8a1dfb34-c487-404d-ae7b-8464da1679f0"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "message": "Coordenador excluído."
+                    },
+                    "400": {
+                        "description": "Erro de validação",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "Erro de validação": {
+                                        "sumary": "Erro na validação dos dados enviados",
+                                        "value": {
+                                            "validation": "uuid",
+                                            "code": "invalid_string",
+                                            "message": "Invalid uuid || O campo id deve ser do tipo string uuid",
+                                            "path": [
+                                                "id"
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Coordenador não encontrado",
+                        "message": "Não existe coordenador cadastro com esse Id."
+                    },
+                    "500": {
+                        "description": "Internal Server Error."
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schema": {
+            "Coordenador": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "nome": {
+                        "type": "string",
+                        "required": true
+                    }, 
+                    "telefone": {
+                        "type": "string",
+                        "required": true
+                    }, 
+                    "matricula": {
+                        "type": "integer",
+                        "format": "int32",
+                        "required": true
+                    },
+                    "createdAt": {
+                        "type": "string"
+                    }
+                    
+                }
+            }
+        }
+    }
+}
