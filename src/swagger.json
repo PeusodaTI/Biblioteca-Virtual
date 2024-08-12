@@ -79,7 +79,19 @@
                         }
                     },
                     "500": {
-                        "description": "Internal Server Error."
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "Erro no Servidor": {
+                                        "sumary": "Internal Server Error",
+                                        "value": {
+                                            "message": "Internal Server Error."
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             },
@@ -95,6 +107,21 @@
                                 "schema": {
                                     "type": "object",
                                     "$ref": "#/components/schema/Coordenador"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "Erro no Servidor": {
+                                        "sumary": "Internal Server Error",
+                                        "value": {
+                                            "message": "Internal Server Error."
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -152,10 +179,33 @@
                     },
                     "404": {
                         "description": "Coordenador não encontrado",
-                        "message": "Não existe coordenador cadastro com esse Id."
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "Erro de validação dados requisição": {
+                                        "sumary": "Erro na validação dos dados enviados",
+                                        "value": {
+                                            "message": "Não existe coordenador cadastro com esse Id."
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     },
                     "500": {
-                        "description": "Internal Server Error."
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "Erro no Servidor": {
+                                        "sumary": "Internal Server Error",
+                                        "value": {
+                                            "message": "Internal Server Error."
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             },
@@ -238,10 +288,33 @@
                     },
                     "404": {
                         "description": "Coordenador não encontrado",
-                        "message": "Não existe coordenador cadastro com esse Id."
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "Erro de validação dados requisição": {
+                                        "sumary": "Erro na validação dos dados enviados",
+                                        "value": {
+                                            "message": "Não existe coordenador cadastro com esse Id."
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     },
                     "500": {
-                        "description": "Internal Server Error."
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "Erro no Servidor": {
+                                        "sumary": "Internal Server Error",
+                                        "value": {
+                                            "message": "Internal Server Error."
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             },
@@ -287,10 +360,430 @@
                     },
                     "404": {
                         "description": "Coordenador não encontrado",
-                        "message": "Não existe coordenador cadastro com esse Id."
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "Erro de validação dados requisição": {
+                                        "sumary": "Erro na validação dos dados enviados",
+                                        "value": {
+                                            "message": "Não existe coordenador cadastro com esse Id."
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     },
                     "500": {
-                        "description": "Internal Server Error."
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "Erro no Servidor": {
+                                        "sumary": "Internal Server Error",
+                                        "value": {
+                                            "message": "Internal Server Error."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/livros/{coordenadorId}": {
+            "post": {
+                "sumary": "Cadastro de um livro.",
+                "description": "Esta rota é responsável por realizar o cadastro de um livro.",
+                "tags": ["Livros"],
+                "parameters": [
+                    {
+                        "name": "coordenadorId",
+                        "in": "path",
+                        "description": "Id para associar o coordenador responsável pelo cadastro do livro.",
+                        "required": true,
+                        "type": "string",
+                        "format": "uuid",
+                        "example": "8a1dfb34-c487-404d-ae7b-8464da1679f0"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schema/Livro"
+                            },
+                            "examples": {
+                                "livro": {
+                                    "value": {
+                                        "nome": "O Poder do Hábito",
+                                        "descricao": "O poder do hábito trás grandes reflexões sobre a vida.",
+                                        "autor": "Jhon Brown"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schema/Livro"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erro de validação",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "Erro de validação": {
+                                        "sumary": "Erro na validação dos dados enviados",
+                                        "value": {
+                                            "code": "tipo invalido",
+                                            "expected": "string",
+                                            "received": "undefined",
+                                            "message": "required || O campo nome é obrigatório",
+                                            "path": [
+                                                "coordenadorId"
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        } 
+                    },
+                    "404": {
+                        "description": "Coordenador não encontrado",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "Erro de validação dados requisição": {
+                                        "sumary": "Erro na validação dos dados enviados",
+                                        "value": {
+                                            "message": "Não existe coordenador cadastro com esse Id."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "Erro no Servidor": {
+                                        "sumary": "Internal Server Error",
+                                        "value": {
+                                            "message": "Internal Server Error."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    
+                }
+            }
+        },
+        "/livros": {
+            "get": {
+                "sumary": "Busca de todos os livros cadastrados.",
+                "description": "Esta rota é responsável por buscar todos os livros cadastrados.",
+                "tags": ["Livros"],
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schema/Livro"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "Erro no Servidor": {
+                                        "sumary": "Internal Server Error",
+                                        "value": {
+                                            "message": "Internal Server Error."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/livros/{id}": {
+            "get": {
+                "sumary": "Busca de livro por Id",
+                "description": "Esta rota é responsável por buscar um único livro por Id.",
+                "tags": ["Livros"],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id para buscar o livro.",
+                        "required": true,
+                        "type": "string",
+                        "format": "uuid",
+                        "example": "8a1dfb34-c487-404d-ae7b-8464da1679f0"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schema/Livro"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erro de validação",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "Erro de validação": {
+                                        "sumary": "Erro na validação dos dados enviados",
+                                        "value": {
+                                            "validation": "uuid",
+                                            "code": "invalid_string",
+                                            "message": "Invalid uuid || O campo id deve ser do tipo string uuid",
+                                            "path": [
+                                                "id"
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Livro não encontrado.",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "Erro de validação dados requisição": {
+                                        "sumary": "Erro na validação dos dados enviados",
+                                        "value": {
+                                            "message": "Não existe livro cadastro com esse Id."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "Erro no Servidor": {
+                                        "sumary": "Internal Server Error",
+                                        "value": {
+                                            "message": "Internal Server Error."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "sumary": "Atualização de livro por Id",
+                "description": "Esta rota é responsável por atualizar um livro por Id.",
+                "tags": ["Livros"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schema/Livro"
+                            },
+                            "examples": {
+                                "livro": {
+                                    "value": {
+                                        "nome": "Dom casmurro",
+                                        "autor": "Charles do Broxn", 
+                                        "descricao": "Dom casmurro retrata a história do lutador de MMA Charles do Bronx"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id para atualizar o livro",
+                        "required": true,
+                        "type": "string",
+                        "format": "uuid",
+                        "example": "8a1dfb34-c487-404d-ae7b-8464da1679f0"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schema/Livro"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erro de validação ou outro erro do cliente.",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "Erro de validação Id": {
+                                        "sumary": "Erro na validação dos dados enviados",
+                                        "value": {
+                                            "validation": "uuid",
+                                            "code": "invalid_string",
+                                            "message": "Invalid uuid || O campo id deve ser do tipo string uuid",
+                                            "path": [
+                                                "id"
+                                            ]
+                                        }
+                                    },
+                                    "Erro de validação dados requisição": {
+                                        "sumary": "Erro na validação dos dados enviados",
+                                        "value": {
+                                            "code": "tipo invalido",
+                                            "expected": "string",
+                                            "received": "number",
+                                            "path": [
+                                                "nome"
+                                            ],
+                                            "message": "Esperado string, recebido number || O campo nome é obrigatório"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Livro não encontrado",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "Erro de validação dados requisição": {
+                                        "sumary": "Erro na validação dos dados enviados",
+                                        "value": {
+                                            "message": "Não existe livro cadastro com esse Id."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "Erro no Servidor": {
+                                        "sumary": "Internal Server Error",
+                                        "value": {
+                                            "message": "Internal Server Error."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "sumary": "Exclusão de um livro por Id",
+                "description": "Esta rota é responsável por excluir um único livro por Id",
+                "tags": ["Livros"],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id para exclusão de um coordenador",
+                        "required": true,
+                        "type": "string",
+                        "format": "uuid",
+                        "example": "8a1dfb34-c487-404d-ae7b-8464da1679f0"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "message": "Livro excluído."
+                    },
+                    "400": {
+                        "description": "Erro de validação",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "Erro de validação": {
+                                        "sumary": "Erro na validação dos dados enviados",
+                                        "value": {
+                                            "validation": "uuid",
+                                            "code": "invalid_string",
+                                            "message": "Invalid uuid || O campo id deve ser do tipo string uuid",
+                                            "path": [
+                                                "id"
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Coordenador não encontrado",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "Erro de validação dados requisição": {
+                                        "sumary": "Erro na validação dos dados enviados",
+                                        "value": {
+                                            "message": "Não existe livro cadastro com esse Id."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "Erro no Servidor": {
+                                        "sumary": "Internal Server Error",
+                                        "value": {
+                                            "message": "Internal Server Error."
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -320,7 +813,26 @@
                     "createdAt": {
                         "type": "string"
                     }
-                    
+                }
+            },
+            "Livro": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "nome": {
+                        "type": "string"
+                    },
+                    "descricao": {
+                        "type": "string"
+                    },
+                    "autor": {
+                        "type": "string"
+                    },
+                    "createdAt": {
+                        "type": "string"
+                    }
                 }
             }
         }

@@ -6,7 +6,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -17,5 +17,18 @@ model Coordenador {
   matricula Int      @unique
   createAt  DateTime @default(now())
 
+  livros Livro[]
+
   @@map("coordenadores")
+}
+
+model Livro {
+  id        String   @id @default(uuid())
+  nome      String
+  descricao String
+  autor     String
+  createdAt DateTime @default(now())
+
+  Coordenador   Coordenador? @relation(fields: [coordenadorId], references: [id])
+  coordenadorId String?
 }

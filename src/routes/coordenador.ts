@@ -50,13 +50,18 @@ coordenadorRouter.post('/', async(request, response) => {
 })
 
 coordenadorRouter.get('/', async(request, response) => {
-    const coordenadores = await prisma.coordenador.findMany({
-        orderBy: {
-            createAt: 'asc'
-        }
-    })
+    try {
+        const coordenadores = await prisma.coordenador.findMany({
+            orderBy: {
+                createAt: 'asc'
+            }
+        })
 
-    return response.status(200).json(coordenadores)
+        return response.status(200).json(coordenadores)
+
+    } catch (error) {
+        return response.status(500).json({ message: 'Internal Server Error.' })
+    }
 })
 
 coordenadorRouter.get('/:id', async(request, response) => {
