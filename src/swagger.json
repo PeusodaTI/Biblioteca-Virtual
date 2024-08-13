@@ -487,7 +487,6 @@
                             }
                         }
                     }
-                    
                 }
             }
         },
@@ -787,6 +786,318 @@
                     }
                 }
             }
+        },
+        "/cursos": {
+            "post": {
+                "sumary": "Cadastro de um curso.",
+                "description": "Esta rota é responsável por realizar o cadastro de um curso.",
+                "tags": ["Cursos"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schema/Curso"
+                            },
+                            "examples": {
+                                "curso": {
+                                    "value": {
+                                        "nome": "Análise e Desenvolvimento de Sistemas."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schema/Curso"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erro de validação",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "Erro de validação": {
+                                        "sumary": "Erro na validação dos dados enviados",
+                                        "value": {
+                                            "code": "tipo invalido",
+                                            "expected": "string",
+                                            "received": "undefined",
+                                            "message": "required || O campo nome é obrigatório e deve conter pelo menos 4 caracteres.",
+                                            "path": [
+                                                "nome"
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        } 
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "Erro no Servidor": {
+                                        "sumary": "Internal Server Error",
+                                        "value": {
+                                            "message": "Internal Server Error."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "sumary": "Busca de todos os cursos cadastrados.",
+                "description": "Esta rota é responsável por buscar todos os cursos cadastrados.",
+                "tags": ["Cursos"],
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schema/Curso"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "Erro no Servidor": {
+                                        "sumary": "Internal Server Error",
+                                        "value": {
+                                            "message": "Internal Server Error."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/cursos/{id}": {
+            "get": {
+                "sumary": "Busca de curso por Id",
+                "description": "Esta rota é responsável por buscar um único curso por Id.",
+                "tags": ["Cursos"],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id para buscar o curso.",
+                        "required": true,
+                        "type": "string",
+                        "format": "uuid",
+                        "example": "8a1dfb34-c487-404d-ae7b-8464da1679f0"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schema/Curso"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "sumary": "Atualização de curso por Id",
+                "description": "Esta rota é responsável por atualizar um curso por Id.",
+                "tags": ["Cursos"],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id para atualizar o curso.",
+                        "required": true,
+                        "type": "string",
+                        "format": "uuid",
+                        "example": "8a1dfb34-c487-404d-ae7b-8464da1679f0"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schema/Curso"
+                            },
+                            "examples": {
+                                "curso": {
+                                    "value": {
+                                        "nome": "Análise e Desenvolvimento de Sistemas."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schema/Curso"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erro de validação ou outro erro do cliente.",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "Erro de validação": {
+                                        "sumary": "Erro na validação dos dados enviados",
+                                        "value": {
+                                            "code": "tipo invalido",
+                                            "expected": "string",
+                                            "received": "undefined",
+                                            "message": "required || O campo nome é obrigatório e deve conter pelo menos 4 caracteres.",
+                                            "path": [
+                                                "nome"
+                                            ]
+                                        }
+                                    } 
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Curso não encontrado",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "Erro de validação dados requisição": {
+                                        "sumary": "Erro na validação dos dados enviados",
+                                        "value": {
+                                            "message": "Não existe curso cadastro com esse Id."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "Erro no Servidor": {
+                                        "sumary": "Internal Server Error",
+                                        "value": {
+                                            "message": "Internal Server Error."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "sumary": "Exclusão de curso por Id",
+                "description": "Esta rota é responsável por excluir um curso por Id.",
+                "tags": ["Cursos"],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id para excluir o curso.",
+                        "required": true,
+                        "type": "string",
+                        "format": "uuid",
+                        "example": "8a1dfb34-c487-404d-ae7b-8464da1679f0"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "curso": {
+                                        "sumary": "Livro excluído.",
+                                        "value": {
+                                            "message": "Livro excluído."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erro de validação ou outro erro do cliente.",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "Erro de validação": {
+                                        "sumary": "Erro na validação dos dados enviados",
+                                        "value": {
+                                            "code": "tipo invalido",
+                                            "expected": "string",
+                                            "received": "undefined",
+                                            "message": "required || O campo nome é obrigatório e deve conter pelo menos 4 caracteres.",
+                                            "path": [
+                                                "nome"
+                                            ]
+                                        }
+                                    } 
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Curso não encontrado",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "Erro de validação dados requisição": {
+                                        "sumary": "Erro na validação dos dados enviados",
+                                        "value": {
+                                            "message": "Não existe curso cadastro com esse Id."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "Erro no Servidor": {
+                                        "sumary": "Internal Server Error",
+                                        "value": {
+                                            "message": "Internal Server Error."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -828,6 +1139,20 @@
                         "type": "string"
                     },
                     "autor": {
+                        "type": "string"
+                    },
+                    "createdAt": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Curso": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "nome": {
                         "type": "string"
                     },
                     "createdAt": {

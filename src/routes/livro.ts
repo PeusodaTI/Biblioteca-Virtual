@@ -172,7 +172,7 @@ livroRouter.delete('/:id', async(request, response) => {
             return response.status(404).json({ message: 'Não existe livro cadastrado com esse Id.' })
         }
 
-        const livroDelete = await prisma.livro.delete({
+        await prisma.livro.delete({
             where: { id }
         })
 

@@ -31,4 +31,14 @@ model Livro {
 
   Coordenador   Coordenador? @relation(fields: [coordenadorId], references: [id])
   coordenadorId String?
+
+  @@map("livros")
+}
+
+model Curso {
+  id        String   @id @default(uuid())
+  nome      String
+  createdAt DateTime @default(now())
+
+  @@map("cursos")
 }
