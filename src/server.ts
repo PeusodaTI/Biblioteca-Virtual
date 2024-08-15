@@ -6,6 +6,7 @@ import cors from 'cors'
 import coordenadorRouter from './routes/coordenador'
 import livroRouter from './routes/livro'
 import cursoRouter from './routes/curso'
+import alunoRouter from './routes/aluno'
 
 const app = express()
 
@@ -18,6 +19,7 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs))
 app.use('/v1/coordenadores', coordenadorRouter)
 app.use('/v1/livros', livroRouter)
 app.use('/v1/cursos', cursoRouter)
+app.use('/v1/alunos', alunoRouter)
 
 app.get('/', (request, response) => {
    return response.send("Teste de integridade")

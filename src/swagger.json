@@ -1098,6 +1098,158 @@
                     }
                 }
             }
+        },
+        "/alunos/{cursoId}": {
+            "post": {
+                "sumary": "Cadastro de alunos",
+                "description": "Esta rota é responsável por cadastrar um aluno",
+                "tags": ["Alunos"],
+                "parameters": [
+                    {
+                        "name": "cursoId",
+                        "in": "path",
+                        "description": "Id do curso para inscrever o aluno.",
+                        "required": true,
+                        "type": "string",
+                        "format": "uuid",
+                        "example": "8a1dfb34-c487-404d-ae7b-8464da1679f0"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schema/Aluno"
+                            },
+                            "examples": {
+                                "aluno": {
+                                    "value": {
+                                        "nome": "Pedro Henrique",
+                                        "matricula": 1234
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok"
+                    }
+                }
+            }
+        },
+        "/alunos": {
+            "get": {
+                "sumary": "Busca todos os alunos.",
+                "description": "Esta rota é responsável por buscar todos os alunos cadastrados e o curso onde está matriculado.",
+                "tags": ["Alunos"],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schema/AlunoCurso"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "Erro no Servidor": {
+                                        "sumary": "Internal Server Error",
+                                        "value": {
+                                            "message": "Internal Server Error."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/alunos/{id}": {
+            "get": {
+                "sumary": "Busca de aluno por id.",
+                "description": "Esta rota é responsável por buscar um aluno cadastrado pelo seu id.",
+                "tags": ["Alunos"],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id para buscar o aluno.",
+                        "required": true,
+                        "type": "string",
+                        "format": "uuid",
+                        "example": "8a1dfb34-c487-404d-ae7b-8464da1679f0"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schema/AlunoCurso"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erro de validação",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "Erro de validação": {
+                                        "sumary": "Erro na validação dos dados enviados",
+                                        "value": {
+                                            "validation": "uuid",
+                                            "code": "invalid_string",
+                                            "message": "Invalid uuid || O campo id deve ser do tipo string uuid",
+                                            "path": [
+                                                "id"
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Aluno não encontrado",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "Erro de validação dados requisição": {
+                                        "sumary": "Erro na validação dos dados enviados",
+                                        "value": {
+                                            "message": "Não existe aluno cadastro com esse Id."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "Erro no Servidor": {
+                                        "sumary": "Internal Server Error",
+                                        "value": {
+                                            "message": "Internal Server Error."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -1157,6 +1309,60 @@
                     },
                     "createdAt": {
                         "type": "string"
+                    }
+                }
+            },
+            "Aluno": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "nome": {
+                        "type": "string"
+                    },
+                    "matricula": {
+                        "type": "integer"
+                    },
+                    "cursoId": {
+                        "type": "string"
+                    },
+                    "createdAt": {
+                        "type": "string"
+                    }
+                }
+            },
+            "AlunoCurso": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "nome": {
+                        "type": "string"
+                    },
+                    "matricula": {
+                        "type": "integer"
+                    },
+                    "cursoId": {
+                        "type": "string"
+                    },
+                    "createdAt": {
+                        "type": "string"
+                    },
+                    "Curso": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "string"
+                            },
+                            "nome": {
+                                "type": "string"
+                            },
+                            "createdAt": {
+                                "type": "string"
+                            }
+                        }
                     }
                 }
             }

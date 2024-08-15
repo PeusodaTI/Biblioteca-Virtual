@@ -40,5 +40,19 @@ model Curso {
   nome      String
   createdAt DateTime @default(now())
 
+  alunos Aluno[]
+
   @@map("cursos")
+}
+
+model Aluno {
+  id        String   @id @default(uuid())
+  nome      String
+  matricula Int      @unique
+  createdAt DateTime @default(now())
+
+  Curso   Curso?  @relation(fields: [cursoId], references: [id])
+  cursoId String?
+
+  @@map("alunos")
 }
