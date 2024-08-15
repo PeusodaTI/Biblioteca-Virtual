@@ -1249,6 +1249,185 @@
                         }
                     }
                 }
+            },
+            "put": {
+                "sumary": "Atualização de aluno por Id.",
+                "description": "Esta rota é responsável por atualizar um aluno por Id.",
+                "tags": ["Alunos"],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id para atualizar o aluno.",
+                        "required": true,
+                        "type": "string",
+                        "format": "uuid",
+                        "example": "7a1dkc34-c487-404d-ae7b-8464da167888"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schema/Aluno"
+                            },
+                            "examples": {
+                                "aluno": {
+                                    "value": {
+                                        "nome": "Joaquim",
+                                        "matricula": 25265,
+                                        "cursoId": "Opcional (uuid)"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Aluno atualizado.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schema/Aluno"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erro de validação ou outro erro do cliente.",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "Erro de validação": {
+                                        "sumary": "Erro na validação dos dados enviados",
+                                        "value": {
+                                            "validation": "uuid",
+                                            "code": "invalid_string",
+                                            "message": "Invalid uuid || O campo id deve ser do tipo string uuid",
+                                            "path": [
+                                                "id"
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Erro de validação",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "Erro de validação": {
+                                        "sumary": "Erro na validação dos dados enviados.",
+                                        "value": {
+                                            "message": "Não existe aluno cadastro com esse Id."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "Erro no Servidor": {
+                                        "sumary": "Internal Server Error",
+                                        "value": {
+                                            "message": "Internal Server Error."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "sumary": "Exclusão de aluno por Id.",
+                "description": "Esta rota é responsável por excluir um aluno por Id.",
+                "tags": ["Alunos"],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id para excluir o aluno.",
+                        "required": true,
+                        "type": "string",
+                        "format": "uuid",
+                        "example": "7a1dkc34-c487-404d-ae7b-8464da167888"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Aluno excluído.",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "aluno": {
+                                        "sumary": "Aluno excluído.",
+                                        "value": {
+                                            "message": "Aluno excluído com sucesso."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erro de validação ou outro erro do cliente.",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "Erro de validação": {
+                                        "sumary": "Erro na validação dos dados enviados",
+                                        "value": {
+                                            "validation": "uuid",
+                                            "code": "invalid_string",
+                                            "message": "Invalid uuid || O campo id deve ser do tipo string uuid",
+                                            "path": [
+                                                "id"
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Erro de validação",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "Erro de validação": {
+                                        "sumary": "Erro na validação dos dados enviados.",
+                                        "value": {
+                                            "message": "Não existe aluno cadastro com esse Id."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "Erro no Servidor": {
+                                        "sumary": "Internal Server Error",
+                                        "value": {
+                                            "message": "Internal Server Error."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     },

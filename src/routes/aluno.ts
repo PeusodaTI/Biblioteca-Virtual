@@ -120,11 +120,19 @@ alunoRouter.put('/:id', async(request, response) => {
     })
 
     const bodySchema = z.object({
-
+        cursoId: z.optional(z.string().uuid()),
+        nome: z.string({
+            required_error: 'O campo nome é obrigatório e deve conter no mínimo 5 caracteres.'
+        }).min(5),
+        matricula: z.number({
+            required_error: 'O campo matricula é obrigatório e deve conter no mínimo 4 caracteres.'
+        }).min(4)
     })
     
     try {
         const { id } = paramsSchema.parse(request.params)
+        const { nome, matricula, cursoId } = bodySchema.parse(request.body)
+        let cursoIdVerify: string
 
         const aluno = await prisma.aluno.findUnique({
             where: { id }
@@ -132,16 +140,56 @@ alunoRouter.put('/:id', async(request, response) => {
 
         if (!aluno) {
             return response.status(404).json({ message: 'Não existe aluno cadastrado com esse id.' })
+        } else {
+            cursoId ? cursoIdVerify = cursoId : cursoIdVerify = aluno.cursoId as string
         }
 
         const alunoUpdate = await prisma.aluno.update({
             where: { id },
             data: {
-
+                nome,
+                matricula,
+                cursoId: cursoIdVerify
             }
         })
 
-        return response.status(200).json(aluno)
+        return response.status(200).json(alunoUpdate)
+
+    } catch (error) {
+        if (error instanceof ZodError) {
+            return response.status(400).json(error)
+        }
+
+        return response.status(500).json({ message: 'Internal Server Error.' })
+    }
+})
+
+alunoRouter.delete('/:id', async(request, response) => {
+    const paramsSchema = z.object({
+        id: z.string({
+            required_error: 'O campo id é obrigatório e do tipo uuid.'
+        }).uuid()
+    })
+
+    try {
+        const { id } = paramsSchema.parse(request.params)
+
+        const aluno = await prisma.aluno.findUnique({
+            where: { id },
+            include: {
+                Curso: true
+            }
+        })
+
+        if (!aluno) {
+            return response.status(404).json({ message: 'Não existe aluno cadastrado com esse id.' })
+        }
+
+        await prisma.aluno.delete({
+            where: { id }
+        })
+        
+        return response.status(200).json({ message: 'Aluno excluído com sucesso.' })
 
     } catch (error) {
         if (error instanceof ZodError) {
