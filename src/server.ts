@@ -7,6 +7,7 @@ import coordenadorRouter from './routes/coordenador'
 import livroRouter from './routes/livro'
 import cursoRouter from './routes/curso'
 import alunoRouter from './routes/aluno'
+import emprestimoRouter from './routes/emprestimo'
 
 const app = express()
 
@@ -20,9 +21,10 @@ app.use('/v1/coordenadores', coordenadorRouter)
 app.use('/v1/livros', livroRouter)
 app.use('/v1/cursos', cursoRouter)
 app.use('/v1/alunos', alunoRouter)
+app.use('/v1/emprestimos', emprestimoRouter)
 
 app.get('/', (request, response) => {
-   return response.send("Teste de integridade")
+   return response.send("Teste de Integridade")
 })
 
 app.listen(3333, () => {

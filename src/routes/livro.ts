@@ -43,6 +43,7 @@ livroRouter.post('/:coordenadorId', async(request, response) => {
                 nome,
                 autor,
                 descricao,
+                disponivel: true,
                 coordenadorId
             }
         })
@@ -50,6 +51,7 @@ livroRouter.post('/:coordenadorId', async(request, response) => {
         return response.status(201).json({ mensagem: 'Livro cadastrado com sucesso!', livro })
 
     } catch (error) {
+        console.log(error)
         if (error instanceof ZodError) {
             return response.status(400).json({ error })
         }

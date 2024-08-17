@@ -1429,6 +1429,347 @@
                     }
                 }
             }
+        },
+        "/emprestimos": {
+            "post": {
+                "sumary": "Cadastro de empréstimos de livros.",
+                "description": "Esta rota é responsável por cadastrar um empréstimo de livro para um aluno.",
+                "tags": ["Empréstimos"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schema/Emprestimo"
+                            },
+                            "examples": {
+                                "emprestimo": {
+                                    "value": {
+                                        "livroId": "81e04400-7458-4fa9-8aa5-6f8860be5454",
+                                        "alunoId": "81e04400-7458-4fa9-8aa5-6f8860be5454",
+                                        "dataEmprestimo": "2024-08-17T15:09:23.625Z"
+                                    }    
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schema/Emprestimo"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erro de validação ou outro erro do cliente.",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "Erro de validação": {
+                                        "sumary": "Erro na validação dos dados enviados",
+                                        "value": {
+                                            "validation": "uuid",
+                                            "code": "invalid_string",
+                                            "message": "Invalid uuid || O campo alunoId deve ser do tipo string uuid",
+                                            "path": [
+                                                "alunoId"
+                                            ]
+                                        }
+                                    },
+                                    "Livro emprestado": {
+                                        "sumary": "Livro emprestado para outro aluno.",
+                                        "value": {
+                                            "message": "Este livro já está emprestado."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "Erro no Servidor": {
+                                        "sumary": "Internal Server Error",
+                                        "value": {
+                                            "message": "Internal Server Error."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "sumary": "Busca de todos os empréstimos cadastrados.",
+                "description": "Essa rota é responsável pela busca de todos os empréstrimos de livros cadastrados.",
+                "tags": ["Empréstimos"],
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schema/Emprestimo"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "Erro no Servidor": {
+                                        "sumary": "Internal Server Error",
+                                        "value": {
+                                            "message": "Internal Server Error."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/emprestimos/{id}": {
+            "get": {
+                "sumary": "Busca de empréstimo por id.",
+                "description": "Esta rota é responsável por buscar um empréstimo de livro por seu id.",
+                "tags": ["Empréstimos"],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id para buscar o empréstimo.",
+                        "required": true,
+                        "type": "string",
+                        "format": "uuid",
+                        "example": "7a1dkc34-c487-404d-ae7b-8464da167888"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schema/Emprestimo"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erro de validação ou outro erro do cliente.",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "Erro de validação": {
+                                        "sumary": "Erro na validação dos dados enviados",
+                                        "value": {
+                                            "validation": "uuid",
+                                            "code": "invalid_string",
+                                            "message": "Invalid uuid || O campo alunoId deve ser do tipo string uuid",
+                                            "path": [
+                                                "alunoId"
+                                            ]
+                                        }
+                                    },
+                                    "Empréstimo não encontrado": {
+                                        "sumary": "Empréstimo não encontrado.",
+                                        "value": {
+                                            "message": "Não existe empréstimo de livro cadastrado com esse Id."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "Erro no Servidor": {
+                                        "sumary": "Internal Server Error",
+                                        "value": {
+                                            "message": "Internal Server Error."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "sumary": "Atualização de empréstimo por Id.",
+                "description": "Esta rota é responsável por atualizar um empréstimo de livro.",
+                "tags": ["Empréstimos"],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id do emprétimo que será atualizado.",
+                        "required": true,
+                        "type": "string",
+                        "format": "uuid",
+                        "example": "7a1dkc34-c487-404d-ae7b-8464da167888"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schema/Emprestimo"
+                            },
+                            "examples": {
+                                "emprestimo": {
+                                    "value": {
+                                        "dataEmprestimo": "2024-08-17T15:09:23.625Z",
+                                        "dataDevolução": "2024-08-18T15:09:23.625Z"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schema/Emprestimo"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erro de validação ou outro erro do cliente.",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "Erro de validação": {
+                                        "sumary": "Erro na validação dos dados enviados",
+                                        "value": {
+                                            "validation": "uuid",
+                                            "code": "invalid_string",
+                                            "message": "Invalid uuid || O campo alunoId deve ser do tipo string uuid",
+                                            "path": [
+                                                "alunoId"
+                                            ]
+                                        }
+                                    },
+                                    "Empréstimo não encontrado": {
+                                        "sumary": "Empréstimo não encontrado.",
+                                        "value": {
+                                            "message": "Não existe empréstimo de livro cadastrado com esse Id."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "Erro no Servidor": {
+                                        "sumary": "Internal Server Error",
+                                        "value": {
+                                            "message": "Internal Server Error."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "sumary": "Exclusão de empréstimo por Id.",
+                "description": "Esta rota é responsável por excluir um empréstimo de livro.",
+                "tags": ["Empréstimos"],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id do emprétimo que será excluído.",
+                        "required": true,
+                        "type": "string",
+                        "format": "uuid",
+                        "example": "7a1dkc34-c487-404d-ae7b-8464da167888"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "emprestimo": {
+                                        "sumary": "Ok",
+                                        "value": {
+                                            "message": "Empréstimo excluído."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erro de validação ou outro erro do cliente.",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "Erro de validação": {
+                                        "sumary": "Erro na validação dos dados enviados",
+                                        "value": {
+                                            "validation": "uuid",
+                                            "code": "invalid_string",
+                                            "message": "Invalid uuid || O campo alunoId deve ser do tipo string uuid",
+                                            "path": [
+                                                "alunoId"
+                                            ]
+                                        }
+                                    },
+                                    "Empréstimo não encontrado": {
+                                        "sumary": "Empréstimo não encontrado.",
+                                        "value": {
+                                            "message": "Não existe empréstimo de livro cadastrado com esse Id."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "Erro no Servidor": {
+                                        "sumary": "Internal Server Error",
+                                        "value": {
+                                            "message": "Internal Server Error."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -1466,11 +1807,14 @@
                     "nome": {
                         "type": "string"
                     },
+                    "autor": {
+                        "type": "string"
+                    },
                     "descricao": {
                         "type": "string"
                     },
-                    "autor": {
-                        "type": "string"
+                    "disponivel": {
+                        "type": "boolean"
                     },
                     "createdAt": {
                         "type": "string"
@@ -1542,6 +1886,26 @@
                                 "type": "string"
                             }
                         }
+                    }
+                }
+            },
+            "Emprestimo": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "dataEmprestimo": {
+                        "type": "string"
+                    },
+                    "dataDevolucao": {
+                        "type": "string"
+                    },
+                    "livroId": {
+                        "type": "string"
+                    },
+                    "alunoId": {
+                        "type": "string"
                     }
                 }
             }
