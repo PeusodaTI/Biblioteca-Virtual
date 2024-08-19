@@ -7,10 +7,10 @@ const emprestimoRouter = Router()
 emprestimoRouter.post('/', async(request, response) => {
     const bodySchema = z.object({
         alunoId: z.string({
-            required_error: 'O campo alunoId é obrigatório e do tipo uuid'
+            required_error: 'O campo alunoId é obrigatório e do tipo uuid.'
         }).uuid(),
         livroId: z.string({
-            required_error: 'O campo livroId é obrigatório e do tipo uuid'
+            required_error: 'O campo livroId é obrigatório e do tipo uuid.'
         }).uuid(),
         dataEmprestimo: z.coerce.date({
             required_error: 'O campo dataEmprestimo é obrigatório e do tipo date.'

@@ -61,7 +61,7 @@ cursoRouter.get('/:id', async(request, response) => {
         })
 
         if (!curso) {
-            return response.status(404).json({ message: 'Não existe nenhum curso cadastrado com esse id.' })
+            return response.status(400).json({ message: 'Não existe nenhum curso cadastrado com esse id.' })
         }
 
         return response.status(200).json(curso)
@@ -98,7 +98,7 @@ cursoRouter.put('/:id', async(request, response) => {
         })
 
         if (!curso) {
-            return response.status(404).json({ message: 'Não existe nenhum curso cadastrado com esse id.' })
+            return response.status(400).json({ message: 'Não existe nenhum curso cadastrado com esse id.' })
         }
 
         const cursoUpdate = await prisma.curso.update({
@@ -136,7 +136,7 @@ cursoRouter.delete('/:id', async(request, response) => {
         })
 
         if (!curso) {
-            return response.status(404).json({ message: 'Não existe nenhum curso cadastrado com esse id.' })
+            return response.status(400).json({ message: 'Não existe nenhum curso cadastrado com esse id.' })
         }
 
         await prisma.curso.delete({

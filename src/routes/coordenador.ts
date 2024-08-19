@@ -79,7 +79,7 @@ coordenadorRouter.get('/:id', async(request, response) => {
         })
 
         if (!coordenador) {
-            return response.status(404).json({ mensagem: 'Não existe coordenador cadastrado com esse Id.' })
+            return response.status(400).json({ mensagem: 'Não existe coordenador cadastrado com esse Id.' })
         }
 
         return response.status(200).json(coordenador)

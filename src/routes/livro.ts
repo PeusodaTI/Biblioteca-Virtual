@@ -4,15 +4,12 @@ import z, {ZodError} from 'zod'
 
 const livroRouter = Router()
 
-livroRouter.post('/:coordenadorId', async(request, response) => {
-    const paramsSchema = z.object({
+livroRouter.post('/', async(request, response) => {
+    const bodySchema = z.object({
         coordenadorId: z.string({
             required_error: 'O campo coordenadorId deve ser do tipo string uuid'
         })
-        .uuid() 
-    })
-
-    const bodySchema = z.object({
+        .uuid(), 
         nome: z.string({ 
             required_error: 'O campo nome é obrigatório.'
         }),
@@ -25,8 +22,7 @@ livroRouter.post('/:coordenadorId', async(request, response) => {
     })
 
     try {
-        const { coordenadorId } = paramsSchema.parse(request.params)
-        const { nome, autor, descricao } = bodySchema.parse(request.body)
+        const { coordenadorId, nome, autor, descricao } = bodySchema.parse(request.body)
 
         const coordenador = await prisma.coordenador.findUnique({
             where: {
@@ -35,7 +31,7 @@ livroRouter.post('/:coordenadorId', async(request, response) => {
         })
 
         if (!coordenador) {
-            return response.status(404).json({ message: 'Não existe coordenador cadastrado com esse Id.' })
+            return response.status(400).json({ message: 'Não existe coordenador cadastrado com esse Id.' })
         }
 
         const livro = await prisma.livro.create({
@@ -90,7 +86,7 @@ livroRouter.get('/:id', async(request, response) => {
         })
 
         if (!livro) {
-            return response.status(404).json({ message: 'Não existe livro cadastrado com esse Id.' })
+            return response.status(400).json({ message: 'Não existe livro cadastrado com esse Id.' })
         }
 
         return response.status(200).json(livro)
@@ -132,7 +128,7 @@ livroRouter.put('/:id', async(request, response) => {
         })
 
         if (!livro) {
-            return response.status(404).json({ message: 'Não existe livro cadastrado com esse Id.' })
+            return response.status(400).json({ message: 'Não existe livro cadastrado com esse Id.' })
         }
 
         const livroUpdate = await prisma.livro.update({
@@ -171,7 +167,7 @@ livroRouter.delete('/:id', async(request, response) => {
         })
 
         if (!livro) {
-            return response.status(404).json({ message: 'Não existe livro cadastrado com esse Id.' })
+            return response.status(400).json({ message: 'Não existe livro cadastrado com esse Id.' })
         }
 
         await prisma.livro.delete({

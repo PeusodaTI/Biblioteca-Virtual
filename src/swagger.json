@@ -11,14 +11,18 @@
     "servers": [
         {
             "url": "http://localhost:3333/v1",
-            "description": "API de teste"
+            "description": "API de Desenvolvimento"
+        },
+        {
+            "url": "http://124.55.65.22:3333/v1",
+            "description": "API de Produção"
         }
     ],
     "paths": {
         "/coordenadores": {
             "post": {
                 "sumary": "Cadastro de coordenadores",
-                "description": "Essa rota será responsável por cadastrar um novo coordenador",
+                "description": "Essa rota será responsável por cadastrar um novo coordenador.",
                 "tags": ["Coordenadores"],
                 "requestBody": {
                     "content": {
@@ -39,7 +43,7 @@
                     }
                 },
                 "responses": {
-                    "200": {
+                    "201": {
                         "description": "Ok",
                         "content": {
                             "aplication/json": {
@@ -96,7 +100,7 @@
                 }
             },
             "get": {
-                "description": "Esta rota é responsável por buscar todos os coordenadores cadastrados",
+                "description": "Esta rota é responsável por buscar todos os coordenadores cadastrados.",
                 "sumary": "Busca de todos os coordenadores cadastrados",
                 "tags": ["Coordenadores"],
                 "responses": {
@@ -131,7 +135,7 @@
         },
         "/coordenadores/{id}": {
             "get": {
-                "description": "Esta rota é responsável por buscar um único coordenador por Id",
+                "description": "Esta rota é responsável por buscar um único coordenador por Id.",
                 "sumary": "Busca de coordenador por Id",
                 "tags": ["Coordenadores"],
                 "parameters": [
@@ -172,20 +176,11 @@
                                                 "id"
                                             ]
                                         }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Coordenador não encontrado",
-                        "content": {
-                            "application/json": {
-                                "examples": {
-                                    "Erro de validação dados requisição": {
-                                        "sumary": "Erro na validação dos dados enviados",
+                                    },
+                                    "Coordenador existente": {
+                                        "sumary": "Cadastro rejeitado",
                                         "value": {
-                                            "message": "Não existe coordenador cadastro com esse Id."
+                                            "message": "Já existe um coordenador com essa matricula"
                                         }
                                     }
                                 }
@@ -281,20 +276,11 @@
                                             ],
                                             "message": "Esperado number, recebido string || O campo nome é obrigatório"
                                         }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Coordenador não encontrado",
-                        "content": {
-                            "application/json": {
-                                "examples": {
-                                    "Erro de validação dados requisição": {
-                                        "sumary": "Erro na validação dos dados enviados",
+                                    },
+                                    "Coordenador existente": {
+                                        "sumary": "Cadastro rejeitado",
                                         "value": {
-                                            "message": "Não existe coordenador cadastro com esse Id."
+                                            "message": "Já existe um coordenador com essa matricula"
                                         }
                                     }
                                 }
@@ -319,8 +305,8 @@
                 }
             },
             "delete": {
-                "description": "Esta rota é responsável por excluir um único coordenador por Id",
                 "sumary": "Exclusão de um coordenador por Id",
+                "description": "Esta rota é responsável por excluir um único coordenador por Id.",
                 "tags": ["Coordenadores"],
                 "parameters": [
                     {
@@ -336,7 +322,14 @@
                 "responses": {
                     "200": {
                         "description": "Ok",
-                        "message": "Coordenador excluído."
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schema/Coordenador"
+                                }
+                            }
+                        }
                     },
                     "400": {
                         "description": "Erro de validação",
@@ -353,20 +346,11 @@
                                                 "id"
                                             ]
                                         }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Coordenador não encontrado",
-                        "content": {
-                            "application/json": {
-                                "examples": {
-                                    "Erro de validação dados requisição": {
-                                        "sumary": "Erro na validação dos dados enviados",
+                                    },
+                                    "Coordenador existente": {
+                                        "sumary": "Cadastro rejeitado",
                                         "value": {
-                                            "message": "Não existe coordenador cadastro com esse Id."
+                                            "message": "Já existe um coordenador com essa matricula"
                                         }
                                     }
                                 }
@@ -391,22 +375,11 @@
                 }
             }
         },
-        "/livros/{coordenadorId}": {
+        "/livros/": {
             "post": {
                 "sumary": "Cadastro de um livro.",
                 "description": "Esta rota é responsável por realizar o cadastro de um livro.",
                 "tags": ["Livros"],
-                "parameters": [
-                    {
-                        "name": "coordenadorId",
-                        "in": "path",
-                        "description": "Id para associar o coordenador responsável pelo cadastro do livro.",
-                        "required": true,
-                        "type": "string",
-                        "format": "uuid",
-                        "example": "8a1dfb34-c487-404d-ae7b-8464da1679f0"
-                    }
-                ],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -416,6 +389,7 @@
                             "examples": {
                                 "livro": {
                                     "value": {
+                                        "coordenadorId": "8a1dfb34-c487-404d-ae7b-8464da1679f0",
                                         "nome": "O Poder do Hábito",
                                         "descricao": "O poder do hábito trás grandes reflexões sobre a vida.",
                                         "autor": "Jhon Brown"
@@ -452,16 +426,7 @@
                                                 "coordenadorId"
                                             ]
                                         }
-                                    }
-                                }
-                            }
-                        } 
-                    },
-                    "404": {
-                        "description": "Coordenador não encontrado",
-                        "content": {
-                            "application/json": {
-                                "examples": {
+                                    },
                                     "Erro de validação dados requisição": {
                                         "sumary": "Erro na validação dos dados enviados",
                                         "value": {
@@ -470,7 +435,7 @@
                                     }
                                 }
                             }
-                        }
+                        } 
                     },
                     "500": {
                         "description": "Internal Server Error",
@@ -488,9 +453,7 @@
                         }
                     }
                 }
-            }
-        },
-        "/livros": {
+            }, 
             "get": {
                 "sumary": "Busca de todos os livros cadastrados.",
                 "description": "Esta rota é responsável por buscar todos os livros cadastrados.",
@@ -568,16 +531,7 @@
                                                 "id"
                                             ]
                                         }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Livro não encontrado.",
-                        "content": {
-                            "application/json": {
-                                "examples": {
+                                    },
                                     "Erro de validação dados requisição": {
                                         "sumary": "Erro na validação dos dados enviados",
                                         "value": {
@@ -666,7 +620,7 @@
                                             ]
                                         }
                                     },
-                                    "Erro de validação dados requisição": {
+                                    "Erro de validação": {
                                         "sumary": "Erro na validação dos dados enviados",
                                         "value": {
                                             "code": "tipo invalido",
@@ -677,16 +631,7 @@
                                             ],
                                             "message": "Esperado string, recebido number || O campo nome é obrigatório"
                                         }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Livro não encontrado",
-                        "content": {
-                            "application/json": {
-                                "examples": {
+                                    },
                                     "Erro de validação dados requisição": {
                                         "sumary": "Erro na validação dos dados enviados",
                                         "value": {
@@ -716,7 +661,7 @@
             },
             "delete": {
                 "sumary": "Exclusão de um livro por Id",
-                "description": "Esta rota é responsável por excluir um único livro por Id",
+                "description": "Esta rota é responsável por excluir um único livro por Id.",
                 "tags": ["Livros"],
                 "parameters": [
                     {
@@ -749,16 +694,7 @@
                                                 "id"
                                             ]
                                         }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Coordenador não encontrado",
-                        "content": {
-                            "application/json": {
-                                "examples": {
+                                    },
                                     "Erro de validação dados requisição": {
                                         "sumary": "Erro na validação dos dados enviados",
                                         "value": {
@@ -916,6 +852,47 @@
                                 }
                             }
                         }
+                    },
+                    "400": {
+                        "description": "Erro de validação",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "Erro de validação": {
+                                        "sumary": "Erro na validação dos dados enviados",
+                                        "value": {
+                                            "validation": "uuid",
+                                            "code": "invalid_string",
+                                            "message": "Invalid uuid || O campo id deve ser do tipo string uuid",
+                                            "path": [
+                                                "id"
+                                            ]
+                                        }
+                                    },
+                                    "Erro de validação dados requisição": {
+                                        "sumary": "Erro na validação dos dados enviados",
+                                        "value": {
+                                            "message": "Não existe curso cadastro com esse Id."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "Erro no Servidor": {
+                                        "sumary": "Internal Server Error",
+                                        "value": {
+                                            "message": "Internal Server Error."
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             },
@@ -977,16 +954,7 @@
                                                 "nome"
                                             ]
                                         }
-                                    } 
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Curso não encontrado",
-                        "content": {
-                            "application/json": {
-                                "examples": {
+                                    },
                                     "Erro de validação dados requisição": {
                                         "sumary": "Erro na validação dos dados enviados",
                                         "value": {
@@ -1061,22 +1029,13 @@
                                                 "nome"
                                             ]
                                         }
-                                    } 
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Curso não encontrado",
-                        "content": {
-                            "application/json": {
-                                "examples": {
+                                    },
                                     "Erro de validação dados requisição": {
                                         "sumary": "Erro na validação dos dados enviados",
                                         "value": {
                                             "message": "Não existe curso cadastro com esse Id."
                                         }
-                                    }
+                                    } 
                                 }
                             }
                         }
@@ -1099,22 +1058,11 @@
                 }
             }
         },
-        "/alunos/{cursoId}": {
+        "/alunos/": {
             "post": {
                 "sumary": "Cadastro de alunos",
                 "description": "Esta rota é responsável por cadastrar um aluno",
                 "tags": ["Alunos"],
-                "parameters": [
-                    {
-                        "name": "cursoId",
-                        "in": "path",
-                        "description": "Id do curso para inscrever o aluno.",
-                        "required": true,
-                        "type": "string",
-                        "format": "uuid",
-                        "example": "8a1dfb34-c487-404d-ae7b-8464da1679f0"
-                    }
-                ],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -1124,6 +1072,7 @@
                             "examples": {
                                 "aluno": {
                                     "value": {
+                                        "cursoId": "8a1dfb34-c487-404d-ae7b-8464da1679f0",
                                         "nome": "Pedro Henrique",
                                         "matricula": 1234
                                     }
@@ -1134,12 +1083,58 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Ok"
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schema/AlunoCurso"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erro de validação ou outro erro do cliente.",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "Erro de validação": {
+                                        "sumary": "Erro na validação dos dados enviados",
+                                        "value": {
+                                            "code": "tipo invalido",
+                                            "expected": "string",
+                                            "received": "undefined",
+                                            "message": "required || O campo nome é obrigatório e deve conter pelo menos 4 caracteres.",
+                                            "path": [
+                                                "nome"
+                                            ]
+                                        }
+                                    },
+                                    "Erro de validação dados requisição": {
+                                        "sumary": "Erro na validação dos dados enviados",
+                                        "value": {
+                                            "message": "Não existe curso cadastro com esse Id. || Já existe aluno cadastrado com essa matricula"
+                                        }
+                                    } 
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "Erro no Servidor": {
+                                        "sumary": "Internal Server Error",
+                                        "value": {
+                                            "message": "Internal Server Error."
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
-            }
-        },
-        "/alunos": {
+            },
             "get": {
                 "sumary": "Busca todos os alunos.",
                 "description": "Esta rota é responsável por buscar todos os alunos cadastrados e o curso onde está matriculado.",
@@ -1213,16 +1208,7 @@
                                                 "id"
                                             ]
                                         }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Aluno não encontrado",
-                        "content": {
-                            "application/json": {
-                                "examples": {
+                                    },
                                     "Erro de validação dados requisição": {
                                         "sumary": "Erro na validação dos dados enviados",
                                         "value": {
@@ -1295,7 +1281,7 @@
                         }
                     },
                     "400": {
-                        "description": "Erro de validação ou outro erro do cliente.",
+                        "description": "Erro de validação",
                         "content": {
                             "application/json": {
                                 "examples": {
@@ -1309,18 +1295,9 @@
                                                 "id"
                                             ]
                                         }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Erro de validação",
-                        "content": {
-                            "application/json": {
-                                "examples": {
-                                    "Erro de validação": {
-                                        "sumary": "Erro na validação dos dados enviados.",
+                                    },
+                                    "Erro de validação dados requisição": {
+                                        "sumary": "Erro na validação dos dados enviados",
                                         "value": {
                                             "message": "Não existe aluno cadastro com esse Id."
                                         }
@@ -1378,7 +1355,7 @@
                         }
                     },
                     "400": {
-                        "description": "Erro de validação ou outro erro do cliente.",
+                        "description": "Erro de validação",
                         "content": {
                             "application/json": {
                                 "examples": {
@@ -1392,18 +1369,9 @@
                                                 "id"
                                             ]
                                         }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Erro de validação",
-                        "content": {
-                            "application/json": {
-                                "examples": {
-                                    "Erro de validação": {
-                                        "sumary": "Erro na validação dos dados enviados.",
+                                    },
+                                    "Erro de validação dados requisição": {
+                                        "sumary": "Erro na validação dos dados enviados",
                                         "value": {
                                             "message": "Não existe aluno cadastro com esse Id."
                                         }

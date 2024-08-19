@@ -4,14 +4,11 @@ import z, { ZodError } from 'zod'
 
 const alunoRouter = Router()
 
-alunoRouter.post('/:cursoId', async(request, response) => {
-    const paramsSchema = z.object({
+alunoRouter.post('/', async(request, response) => {
+    const bodySchema = z.object({
         cursoId: z.string({
             required_error: 'O campo id é obrigatório e do tipo uuid'
-        }).uuid()
-    })
-
-    const bodySchema = z.object({
+        }).uuid(),
         nome: z.string({
             required_error: 'O campo nome é obrigatório e deve conter no mínimo 5 caracteres.'
         }).min(5),
@@ -21,8 +18,7 @@ alunoRouter.post('/:cursoId', async(request, response) => {
     })
 
     try {
-        const { cursoId } = paramsSchema.parse(request.params)
-        const { nome, matricula } = bodySchema.parse(request.body)
+        const { cursoId, nome, matricula } = bodySchema.parse(request.body)
 
         const curso = await prisma.curso.findUnique({
             where: {
@@ -31,7 +27,7 @@ alunoRouter.post('/:cursoId', async(request, response) => {
         })
 
         if (!curso) {
-            return response.status(404).json({ message: 'Não existe curso cadastrado com esse id.' })
+            return response.status(400).json({ message: 'Não existe curso cadastrado com esse id.' })
         }
 
         const aluno = await prisma.aluno.findUnique({
@@ -39,14 +35,14 @@ alunoRouter.post('/:cursoId', async(request, response) => {
         })
 
         if (aluno) {
-            return response.status(404).json({ message: 'Já existe aluno cadastrado com essa matricula.', aluno })
+            return response.status(400).json({ message: 'Já existe aluno cadastrado com essa matricula.', aluno })
         }
 
         const alunoCreate = await prisma.aluno.create({
             data: {
                 nome,
                 matricula,
-                cursoId: curso.id
+                cursoId
             }
         })
 
@@ -98,7 +94,7 @@ alunoRouter.get('/:id', async(request, response) => {
         })
 
         if (!aluno) {
-            return response.status(404).json({ message: 'Não existe aluno cadastrado com esse id.' })
+            return response.status(400).json({ message: 'Não existe aluno cadastrado com esse id.' })
         }
 
         return response.status(200).json(aluno)
@@ -139,7 +135,7 @@ alunoRouter.put('/:id', async(request, response) => {
         })
 
         if (!aluno) {
-            return response.status(404).json({ message: 'Não existe aluno cadastrado com esse id.' })
+            return response.status(400).json({ message: 'Não existe aluno cadastrado com esse id.' })
         } else {
             cursoId ? cursoIdVerify = cursoId : cursoIdVerify = aluno.cursoId as string
         }
@@ -182,7 +178,7 @@ alunoRouter.delete('/:id', async(request, response) => {
         })
 
         if (!aluno) {
-            return response.status(404).json({ message: 'Não existe aluno cadastrado com esse id.' })
+            return response.status(400).json({ message: 'Não existe aluno cadastrado com esse id.' })
         }
 
         await prisma.aluno.delete({
