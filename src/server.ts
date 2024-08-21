@@ -27,6 +27,6 @@ app.get('/', (request, response) => {
    return response.send("Teste de Integridade")
 })
 
-app.listen(3333, () => {
+app.listen(process.env.PORT ? Number(process.env.PORT) : 3333, () => {
     console.log("App on!")
 })

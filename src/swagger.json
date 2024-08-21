@@ -14,7 +14,7 @@
             "description": "API de Desenvolvimento"
         },
         {
-            "url": "http://124.55.65.22:3333/v1",
+            "url": "https://api-lib-virtual.onrender.com/v1",
             "description": "API de Produção"
         }
     ],
