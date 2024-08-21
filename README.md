@@ -12,10 +12,10 @@ A aplicação consistem em uma ferramenta para gerência em empréstimos de livr
 A aplicação foi documentada utilizando a ferramenta Swagger UI. Desse modo, qualquer usuário pode testar os endpoints da aplicação através da interface de usuário.
 
 ## Layout Swagger
-![Swagger](https://github.com/PeusodaTI/Biblioteca-Virtual/assets/swagger.png)
+![Swagger](https://github.com/PeusodaTI/Biblioteca-Virtual/blob/main/assets/swagger.png)
 
 ## Modelo conceitual
-![Modelo Conceitual](https://github.com/PeusodaTI/Biblioteca-Virtual/assets/conceitual.png)
+![Modelo Conceitual](https://github.com/PeusodaTI/Biblioteca-Virtual/blob/main/assets/conceitual.png)
 
 # Tecnologias utilizadas
 ## Back end
