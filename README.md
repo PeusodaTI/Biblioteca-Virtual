@@ -3,7 +3,7 @@
 
 # Sobre o projeto
 
-https://render
+https://api-lib-virtual.onrender.com/api-docs/
 
 API Bibliote Virtual é uma aplicação desenvolvida para aprimorar meus conhecimentos em desenvolvimento de API Restfull.
 
@@ -50,6 +50,11 @@ npm install
 
 # iniciar o docker para utilizar uma instância do banco de dados PostgreSql
 docker compose up -d
+
+# executar as migrations
+npx prisma migrate dev 
+obs: é necessário criar o arquivo .env e informar o DATABASE_URL
+ex: DATABASE_URL=postgresql://janedoe:mypassword@localhost:5432/mydb
 
 # executar o projeto
 npm run dev
